@@ -76,7 +76,12 @@ class AlienInvasion:
         # Get rid of bullets that have disappeared.
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
-                self.bullets.remove(bullet)  
+                self.bullets.remove(bullet) 
+
+        # Check for any bullets that have hit aliens.
+        # If so, get rid of the bullet and the alien.
+        collisions = pygame.sprite.groupcollide(
+            self.bullets, self.aliens, True, True) 
 
     def _update_aliens(self):
         """
@@ -91,7 +96,7 @@ class AlienInvasion:
         # Create an alien and find the number of aliens in a row
         # Spacing between each alien is equal to one alien width.
         alien = Alien(self)
-        alien_width,alien_height = alien.rect.size
+        alien_width, alien_height = alien.rect.size
         available_space_x = self.settings.screen_width - (2 * alien_width)
         number_aliens_x = available_space_x // (2 * alien_width)
 
